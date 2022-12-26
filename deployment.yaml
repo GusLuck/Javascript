@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+#env
+kind: Deployment
+metadata:
+#name pods
+  name: node-deployment
+  #namespace: development
+  labels:
+    app: node
+spec:
+#Banyaknya pod yang akan dicreate
+  replicas: 1
+  selector:
+    matchLabels:
+      app: node
+  template:
+    metadata:
+      labels:
+        app: node
+    spec:
+      containers:
+      - name: node
+        image: javascript:1.0
+        ports: 
+        - containerPort: 8000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service
+  #namespace: development
+spec:
+  selector:
+    app.kubernetes.io/name: node
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
